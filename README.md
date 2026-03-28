@@ -8,6 +8,7 @@ Controle de fluxo de caixa com relatorio de saldo diário
 ​Domínio de Consolidação (Reporting): Responsável por agregar os dados e fornecer o saldo diário. É o sistema de leitura (Read Model).
 
 
+
 ​2. Arquitetura Proposta (C4 Model - Nível 1 e 2)
 ​Context Diagram 
 (L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
@@ -22,6 +23,7 @@ salva no PostgreSQL e publica um evento LancamentoCriado em um tópico do Rabbit
 ​Worker de Consolidação: Consome os eventos e atualiza uma tabela de saldo consolidado em um banco otimizado para leitura (ou uma tabela específica).
 
 ​API de Relatórios: Consulta o saldo consolidado sem onerar o banco de lançamentos.
+
 
 
 ​3. Segurança (Obrigatório)
@@ -39,6 +41,7 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 ​Comunicação entre Serviços: mTLS ou validação de JWT interno via Service Mesh (Istio) ou validação simples de API Key rotativa em Secrets Manager.
 
 
+
 ​4. Registro de Decisões Arquiteturais (ADR Exemplo)
 ​ADR 001: Comunicação Assíncrona via Mensageria
 ​Contexto: O serviço de consolidado não pode afetar a disponibilidade do lançamento.
@@ -48,7 +51,9 @@ O saldo pode demorar alguns milissegundos para atualizar, mas o sistema de venda
 ​Alternativa Descartada: Chamada HTTP síncrona (geraria acoplamento temporal e falha em cascata).
 
 
-​5. Requisitos Não Funcionais e Operação
+
+​5. Requisitos Não Funcionais e Operação:
+
 ​Escalabilidade e Resiliência:
 ​Picos de 50 req/s: O uso de mensageria atua como um buffer. 
 Se o serviço de consolidado ficar lento, as mensagens ficam na fila e são processadas conforme a capacidade, garantindo 0% de perda (superando os 5% permitidos).
