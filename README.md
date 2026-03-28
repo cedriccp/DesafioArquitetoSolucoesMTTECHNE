@@ -44,7 +44,8 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 
 
 
-​4. Registro de Decisões Arquiteturais (ADR Exemplo)
+​4. Registro de Decisões Arquiteturais
+(ADR Exemplo)
 ​ADR 001: Comunicação Assíncrona via Mensageria
 ​Contexto: O serviço de consolidado não pode afetar a disponibilidade do lançamento.
 ​Decisão: Utilizar um Message Broker para desacoplar os serviços.
