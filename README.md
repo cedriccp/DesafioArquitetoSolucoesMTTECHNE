@@ -9,6 +9,7 @@ Controle de fluxo de caixa com relatorio de saldo diário
 
 
 
+
 ​2. Arquitetura Proposta 
 (C4 Model - Nível 1 e 2)
 
@@ -28,6 +29,7 @@ salva no PostgreSQL e publica um evento LancamentoCriado em um tópico do Rabbit
 
 
 
+
 ​3. Segurança (Obrigatório)
 ​Minha proposta foca em Defense in Depth:
 ​Autenticação/Autorização: 
@@ -41,6 +43,8 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 ​In Transit: TLS 1.2+ em todas as comunicações.
 
 ​Comunicação entre Serviços: mTLS ou validação de JWT interno via Service Mesh (Istio) ou validação simples de API Key rotativa em Secrets Manager.
+
+
 
 
 
@@ -59,6 +63,8 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 O saldo pode demorar alguns milissegundos para atualizar, mas o sistema de vendas nunca para.
 
 ​Alternativa Descartada: Chamada HTTP síncrona (geraria acoplamento temporal e falha em cascata).
+
+
 
 
 
