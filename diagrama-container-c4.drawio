@@ -1,0 +1,24 @@
+graph LR
+    User((Comerciante))
+    
+    subgraph "Cash Flow System"
+        Gateway[API Gateway / Auth]
+        
+        S1[Serviço de Lançamentos\n.NET / Java / Go]
+        DB1[(PostgreSQL\nTransacional)]
+        
+        Broker[Message Broker\nRabbitMQ / Kafka]
+        
+        S2[Worker de Consolidação\nConsumidor]
+        S3[Serviço de Relatórios\nQuery API]
+        DB2[(Redis / MongoDB\nRead Model)]
+    end
+
+    User -- "HTTPS/JSON" --> Gateway
+    Gateway -- "Write" --> S1
+    S1 -- "Persiste" --> DB1
+    S1 -- "Publica Evento" --> Broker
+    Broker -- "Assina" --> S2
+    S2 -- "Atualiza Saldo" --> DB2
+    Gateway -- "Read" --> S3
+    S3 -- "Consulta" --> DB2
