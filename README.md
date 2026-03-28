@@ -16,13 +16,14 @@ Controle de fluxo de caixa com relatorio de saldo diário
 ​Context Diagram 
 (L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
 
+
 graph TD
     User((Comerciante))
     System[Sistema de Fluxo de Caixa]
     EmailService[Serviço de Notificação Ext]
-    
     User -- "Registra lançamentos e consulta saldos" --> System
     System -- "Envia alertas" --> EmailService
+
 
 // --------------------------
 
