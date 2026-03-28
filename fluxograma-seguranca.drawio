@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant U as Comerciante
+    participant G as API Gateway (Rate Limit)
+    participant IDP as Identity Provider (OIDC)
+    participant S as Microserviço
+    participant DB as Banco de Dados (AES-256)
+
+    U->>IDP: Autenticar (User/Pass)
+    IDP-->>U: JWT Token (Signed)
+    U->>G: Request + JWT
+    G->>G: Valida Rate Limit & WAF
+    G->>S: Encaminha Req (mTLS)
+    S->>S: Valida Escopo do Token
+    S->>DB: Escrita com Dados Criptografados
+    DB-->>S: Sucesso
+    S-->>U: 201 Created
