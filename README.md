@@ -16,19 +16,18 @@ Controle de fluxo de caixa com relatorio de saldo diário
 ​Context Diagram 
 (L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
 
-
+// -------------------------- 
 Graph TD
     User((Comerciante))...
-
 // --------------------------    
 
 
 ​Container Diagram 
 (L2) --> ​padrão CQRS (Command Query Responsibility Segregation) assíncrono.
 
+// -------------------------- 
 graph LR
     User((Comerciante))...
-
 // --------------------------
 
 
@@ -60,10 +59,9 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 
 ​Comunicação entre Serviços: mTLS ou validação de JWT interno via Service Mesh (Istio) ou validação simples de API Key rotativa em Secrets Manager.
 
-
+// --------------------------------- 
 sequenceDiagram
     participant U as Comerciante....
-
 // ---------------------------------
 
 
