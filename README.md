@@ -17,7 +17,7 @@ Controle de fluxo de caixa com relatorio de saldo diário
 (L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
 
 
-subgraph TD
+Graph TD
     User((Comerciante))
     System[Sistema de Fluxo de Caixa]
     EmailService[Serviço de Notificação Ext]
