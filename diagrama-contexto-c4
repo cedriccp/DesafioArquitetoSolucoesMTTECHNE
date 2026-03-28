@@ -1,0 +1,7 @@
+graph TD
+    User((Comerciante))
+    System[Sistema de Fluxo de Caixa]
+    EmailService[Serviço de Notificação Ext]
+    
+    User -- "Registra lançamentos e consulta saldos" --> System
+    System -- "Envia alertas" --> EmailService
