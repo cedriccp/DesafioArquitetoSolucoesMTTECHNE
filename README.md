@@ -3,8 +3,10 @@ Controle de fluxo de caixa com relatorio de saldo diário
 
 
 1. Mapeamento de Domínios e Capacidades
-​Para atender ao requisito de que o serviço de lançamentos não pare se o consolidado falhar, utilizarei uma Arquitetura Baseada em Eventos (EDA).
+​Para atender ao requisito de que o serviço de lançamentos não pare se o consolidado falhar, baseado na  Arquitetura Baseada em Eventos (EDA).
+
 ​Domínio de Lançamentos (Core): Responsável pelo CRUD de débitos e créditos. É o sistema de escrita (Transactional).
+
 ​Domínio de Consolidação (Reporting): Responsável por agregar os dados e fornecer o saldo diário. É o sistema de leitura (Read Model).
 
 
@@ -13,20 +15,20 @@ Controle de fluxo de caixa com relatorio de saldo diário
 ​2. Arquitetura Proposta 
 (C4 Model - Nível 1 e 2)
 
-​Context Diagram 
-(L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
+​Diagrama de Contexto 
+(L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado é resiliente.
 
 // -------------------------- 
-Graph TD
+Graph TD (drawio)
     User((Comerciante))...
 // --------------------------    
 
 
-​Container Diagram 
+Diagrama de ​Container 
 (L2) --> ​padrão CQRS (Command Query Responsibility Segregation) assíncrono.
 
 // -------------------------- 
-graph LR
+graph LR (drawio)
     User((Comerciante))...
 // --------------------------
 
@@ -45,13 +47,13 @@ salva no PostgreSQL e publica um evento LancamentoCriado em um tópico do Rabbit
 
 
 
-​3. Segurança (Obrigatório)
-​Minha proposta foca em Defense in Depth:
+​3. Segurança (Obrigatório).
+​Proposta focada em Defense in Depth:
 ​Autenticação/Autorização: 
 Uso de OAuth2/OpenID Connect com JWT. 
 O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashflow.read.
 
-​Proteção de API: Implementação de Rate Limiting (exemplo: 100 req/s por IP) no API Gateway (Kong ou AWS WAF) para evitar DoS.
+​Proteção de API: Implementação de Rate Limiting (exemplo: 100 requisições/seg  por IP) no API Gateway (Kong ou AWS WAF) para evitar DoS.
 
 ​Segurança de Dados:
 ​At Rest: Criptografia de disco (AES-256).
@@ -66,7 +68,7 @@ sequenceDiagram
 
 
 
-​4. Registro de Decisões Arquiteturais
+​4. Registro de Decisões Arquiteturais:
 
 (ADR Exemplo)
 
@@ -88,7 +90,7 @@ O saldo pode demorar alguns milissegundos para atualizar, mas o sistema de venda
 
 ​Escalabilidade e Resiliência:
 ​Picos de 50 req/s: O uso de mensageria atua como um buffer. 
-Se o serviço de consolidado ficar lento, as mensagens ficam na fila e são processadas conforme a capacidade, garantindo 0% de perda (superando os 5% permitidos).
+Se o serviço de consolidado ficar lento, as mensagens ficam na fila e são processadas conforme a capacidade, garantindo 0% de perda (default de 5% permitidos).
 
 ​Observabilidade: Implementar OpenTelemetry para rastreamento distribuído (Tracing), permitindo ver o caminho de um lançamento desde a API até a consolidação.
 
