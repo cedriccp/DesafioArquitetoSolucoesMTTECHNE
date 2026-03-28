@@ -9,7 +9,9 @@ Controle de fluxo de caixa com relatorio de saldo diário
 
 
 
-​2. Arquitetura Proposta (C4 Model - Nível 1 e 2)
+​2. Arquitetura Proposta 
+(C4 Model - Nível 1 e 2)
+
 ​Context Diagram 
 (L1) --> ​O Comerciante interage com o Sistema de Fluxo de Caixa para registrar movimentações e consultar saldos. O sistema é isolado e resiliente.
 
