@@ -18,46 +18,16 @@ Controle de fluxo de caixa com relatorio de saldo diário
 
 
 Graph TD
-    User((Comerciante))
-    System[Sistema de Fluxo de Caixa]
-    EmailService[Serviço de Notificação Ext]
-    
-    User -- "Registra lançamentos e consulta saldos" --> System
-    System -- "Envia alertas" --> EmailService
+    User((Comerciante))...
 
-
-// --------------------------
-
+// --------------------------    
 
 
 ​Container Diagram 
 (L2) --> ​padrão CQRS (Command Query Responsibility Segregation) assíncrono.
 
 graph LR
-    User((Comerciante))
-    
-    subgraph "Cash Flow System"
-        Gateway[API Gateway / Auth]
-        
-        S1[Serviço de Lançamentos\n.NET / Java / Go]
-        DB1[(PostgreSQL\nTransacional)]
-        
-        Broker[Message Broker\nRabbitMQ / Kafka]
-        
-        S2[Worker de Consolidação\nConsumidor]
-        S3[Serviço de Relatórios\nQuery API]
-        DB2[(Redis / MongoDB\nRead Model)]
-    end
-
-    User -- "HTTPS/JSON" --> Gateway
-    Gateway -- "Write" --> S1
-    S1 -- "Persiste" --> DB1
-    S1 -- "Publica Evento" --> Broker
-    Broker -- "Assina" --> S2
-    S2 -- "Atualiza Saldo" --> DB2
-    Gateway -- "Read" --> S3
-    S3 -- "Consulta" --> DB2
-
+    User((Comerciante))...
 
 // --------------------------
 
@@ -92,21 +62,7 @@ O serviço de lançamentos exige o scope cashflow.write, o de relatórios cashfl
 
 
 sequenceDiagram
-    participant U as Comerciante
-    participant G as API Gateway (Rate Limit)
-    participant IDP as Identity Provider (OIDC)
-    participant S as Microserviço
-    participant DB as Banco de Dados (AES-256)
-
-    U->>IDP: Autenticar (User/Pass)
-    IDP-->>U: JWT Token (Signed)
-    U->>G: Request + JWT
-    G->>G: Valida Rate Limit & WAF
-    G->>S: Encaminha Req (mTLS)
-    S->>S: Valida Escopo do Token
-    S->>DB: Escrita com Dados Criptografados
-    DB-->>S: Sucesso
-    S-->>U: 201 Created
+    participant U as Comerciante....
 
 // ---------------------------------
 
